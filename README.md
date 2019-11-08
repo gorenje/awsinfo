@@ -8,11 +8,11 @@ Fairly typical sinatra/ruby project:
 
     gem install bundler
     bundle
-    PORT=5000 foreman start
+    PORT=3001 foreman start
 
 After that, it's turtles all the way down.
 
-    open -a Firefox http://localhost:5000
+    open -a Firefox http://localhost:3001
 
 After that, everything should work fine.
 
