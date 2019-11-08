@@ -1,0 +1,8 @@
+- @links.each_slice(12) do |links|
+  .row.text-center
+    - links.each do |link|
+      .col-md-1.m-1.text-center
+        - if link[:icon]
+          %a.action.fas{ class: "fa-#{link[:icon]} _#{link[:path]}", title: link[:title], href: "#{request.path}/#{link[:path]}" }
+        - else
+          %a.action{ class: "_#{link[:path]}", title: link[:title], href: "#{request.path}/#{link[:path]}" }= link[:title]

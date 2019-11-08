@@ -1,0 +1,14 @@
+.row
+  .col-md-12.m-1.text-center
+    %h2= params[:c].first
+
+.row
+  .col-md-12.m-1.text-center
+    %form{ method: 'post', action: request.path }
+      = "/#{params[:c].first}/"
+      %input{ type: 'hidden', name: 'prefix', value: params[:c].first }
+      %input{ type: 'text', name: 'name', placeholder: 'Name' }
+      %input{ type: 'text', name: 'value', placeholder: 'Value' }
+      %input{ type: 'submit', value: 'Upsert' }
+
+= haml :table
