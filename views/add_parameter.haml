@@ -4,11 +4,18 @@
 
 .row
   .col-md-12.m-1.text-center
-    %form{ method: 'post', action: request.path }
+    %form{ method: 'post', action: request.path + "/upsert"}
       = "/#{params[:c].first}/"
       %input{ type: 'hidden', name: 'prefix', value: params[:c].first }
       %input{ type: 'text', name: 'name', placeholder: 'Name' }
       %input{ type: 'text', name: 'value', placeholder: 'Value' }
       %input{ type: 'submit', value: 'Upsert' }
+
+.row
+  .col-md-12.m-1.text-center
+    %form{ method: 'post', action: request.path + "/clone" }
+      %input{ type: 'hidden', name: 'prefix', value: params[:c].first }
+      %input{ type: 'text', name: 'new_prefix', placeholder: 'New Prefix', value: params[:c].first }
+      %input{ type: 'submit', value: 'Clone' }
 
 = haml :table

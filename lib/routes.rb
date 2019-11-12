@@ -47,11 +47,32 @@ module Routes
 
     module Add
       def self.included(app)
-        app.post '/ssm/parameters/add' do
+        app.post '/ssm/parameters/add/clone' do
+          paras  = Awsctl.run("ssm describe-parameters "+
+                              "--filters \"Key=Name,Values="+
+                              "#{params[:prefix]}\"")
+
+          values = paras["Parameters"].map { |a| a["Name"] }.
+                     each_slice(10).to_a.map { |a| a.join(' ') }.
+                     map do |names|
+            Awsctl.run("ssm get-parameters --names #{names} --with-decryption")
+          end.map { |a| a["Parameters"] }.flatten
+
+          values.each do |hsh|
+            name = hsh["Name"].split(/\//).last
+            Awsctl.run("ssm put-parameter --overwrite --type #{hsh['Type']} "+
+                       "--name /#{params[:new_prefix]}/#{name} "+
+                       "--value=\"#{hsh['Value']}\"")
+          end
+
+          redirect "/ssm/parameters/add?c[]=#{CGI.escape(params[:new_prefix])}"
+        end
+
+        app.post '/ssm/parameters/add/upsert' do
           Awsctl.run("ssm put-parameter --overwrite --type SecureString "+
                      "--name /#{params[:prefix]}/#{params[:name]} "+
                      "--value=\"#{params[:value]}\"")
-          redirect "#{request.path}?c[]=#{CGI.escape(params[:prefix])}"
+          redirect "/ssm/parameters/add?c[]=#{CGI.escape(params[:prefix])}"
         end
 
         app.get '/ssm/parameters/add' do
@@ -65,7 +86,7 @@ module Routes
             Awsctl.run("ssm get-parameters --names #{names} --with-decryption")
           end.map { |a| a["Parameters"] }.flatten
 
-          @allrows = [values.first.keys] + values.map(&:values)
+          @allrows = [(values.first || {}).keys] + values.map(&:values)
           @actions = {
             "delete" => "minus-circle"
           }
