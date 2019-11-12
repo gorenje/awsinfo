@@ -1,0 +1,11 @@
+.row
+  .col-md-12.m-1.text-center
+    %h2 Repository Listing
+
+.row
+  .col-md-12.m-1.text-center
+    %form{ method: 'post', action: request.path + "/create" }
+      %input{ type: 'text', name: 'name', placeholder: 'New Repo Name' }
+      %input{ type: 'submit', value: 'Create' }
+
+= haml :table

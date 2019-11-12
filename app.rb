@@ -3,7 +3,6 @@
 require_relative 'lib/extensions'
 require_relative 'lib/constants'
 require_relative 'lib/awsctl'
-require_relative 'lib/kubectl'
 require_relative 'lib/helpers'
 require_relative 'lib/routes'
 
@@ -16,6 +15,8 @@ class Webapp < Sinatra::Base
 
   include Routes::Ecs::List
   include Routes::Ecr::List
+  include Routes::Ecr::Add
+  include Routes::Ecr::Delete
   include Routes::Ssm::List
   include Routes::Ssm::Add
   include Routes::Ssm::Delete

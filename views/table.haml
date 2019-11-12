@@ -1,6 +1,6 @@
 .row
   .col-md-12.text-center.font-weight-bold
-    = CGI.unescape(request.path)
+    = @title || CGI.unescape(request.path)
 .row
   .col-md-12
     :javascript

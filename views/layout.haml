@@ -26,6 +26,10 @@
           return false;
         });
 
+        $('a._delete, a._recreate').click(function(event){
+          return confirm( $(event.target).attr('title') + " - Are you sure?\n" + $(event.target).closest("tr").html());
+        });
+
         $('#navmenu').find('a').removeClass('highlight');
 
         var location = window.location.pathname.split("/")[1]
@@ -40,17 +44,7 @@
 
     #navmenu
       .row.border-bottom.pb-2.pt-2.mr-2.ml-2
-        .col-8.text-left
+        .col-12.text-left
           = Cmpnts.map {|v| "<a href='/#{v}'>#{v.capitalize}</a>"}.join(" | ")
-        .col-4.text-right
-          %a{ :href => "/top" } Top
-          = "|"
-          %a{ :href => "/_graph" } Graph
-          = "|"
-          %a{ :href => "/_events" } Events
-          = "|"
-          %a{ :href => "/_busybox" } Busybox
-          = "|"
-          %a{ :href => "/_cfg" } Config
     .row.pt-2
       .col-12= yield
