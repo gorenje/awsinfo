@@ -152,23 +152,6 @@ module Routes
           haml :table
         end
 
-        app.get '/ssm/parameters/list' do
-          paras  = Awsctl.run("ssm describe-parameters "+
-                              "--filters \"Key=Name,Values="+
-                              "#{params[:c].first}\"")
-
-          values = paras["Parameters"].map { |a| a["Name"] }.
-                     each_slice(10).to_a.map { |a| a.join(' ') }.
-                     map do |names|
-            Awsctl.run("ssm get-parameters --names #{names} --with-decryption")
-          end.map { |a| a["Parameters"] }.flatten
-
-          @allrows = [values.first.keys] + values.map(&:values)
-          @actions = {
-          }
-          haml :table
-        end
-
         app.get '/ssm/parameters' do
           paras = Awsctl.run("ssm describe-parameters")
 
@@ -178,8 +161,7 @@ module Routes
           end.keys.map { |a| [a] }
 
           @actions = {
-            "list" => "stream",
-            "add" => "plus-circle"
+            "add" => "stream"
           }
           haml :table
         end
