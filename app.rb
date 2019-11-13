@@ -13,6 +13,7 @@ class Webapp < Sinatra::Base
     include ViewHelpers
   end
 
+  include Routes::R53::List
   include Routes::Ecs::List
   include Routes::Ecr::List
   include Routes::Ecr::Add
