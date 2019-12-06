@@ -1,0 +1,6 @@
+- if value.leading_or_trailing_spaces?
+  %pre{ style: "background-color: red;" }
+    = "WHITESPACE&gt;&gt;&gt;&gt;&gt;#{value}&lt;&lt;&lt;&lt;&lt;WARNING"
+- else
+  %pre
+    = value

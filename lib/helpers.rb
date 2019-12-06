@@ -20,7 +20,8 @@ module ViewHelpers
   end
 
   def cell(value)
-    o = value =~ /^([0-9]+)(m|Mi|Gi|%|d|h|Ki)/ ? Nrm.call($1,$2) : value
+    o = value =~ /^([0-9]+)(m|Mi|Gi|%|d|h|Ki)/ ? Nrm.call($1,$2)
+                                               : CGI.escape(value.to_s)
     "<td data-order='#{o}'>#{value}</td>"
   end
 

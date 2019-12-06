@@ -102,7 +102,13 @@ module Routes
                      each_slice(10).to_a.map { |a| a.join(' ') }.
                      map do |names|
             Awsctl.run("ssm get-parameters --names #{names} --with-decryption")
-          end.map { |a| a["Parameters"] }.flatten
+          end.map do |a|
+            a["Parameters"]
+          end.flatten.map do |a|
+            a["Value"] =
+              haml(:"pre", locals: { value: a["Value"] }, layout: false)
+            a
+          end
 
           @allrows = [(values.first || {}).keys] + values.map(&:values)
           @actions = {

@@ -96,6 +96,18 @@ module Routes
           @actions = {
             "terminal" => "terminal"
           }
+
+          dockercmd = <<-EOF
+            docker exec -it $(docker ps                           | \
+              grep #{params.c1.split(/\//).last.split(/_/).first} | \
+              awk '// { print $1 }')                                \
+              /usr/local/bin/ssm-env -with-decryption bash
+          EOF
+
+          @title = "%s<p>%s" % [params.c1,
+                                haml(:"code", locals: {
+                                       code: dockercmd }, layout: false)]
+
           haml :table
         end
 

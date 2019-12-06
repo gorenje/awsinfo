@@ -11,6 +11,10 @@ class String
   def blank?
     empty? || self =~ /^\s+$/
   end
+
+  def leading_or_trailing_spaces?
+    self =~ /^[[:space:]]/ || self =~ /[[:space:]]$/
+  end
 end
 
 class Sinatra::IndifferentHash
