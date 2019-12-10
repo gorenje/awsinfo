@@ -21,6 +21,7 @@ class Webapp < Sinatra::Base
   include Routes::Ssm::List
   include Routes::Ssm::Add
   include Routes::Ssm::Delete
+  include Routes::Log::List
 
   get '/' do
     haml ".text-center\n  %a{:href => '/list'} List"
