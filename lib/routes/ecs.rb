@@ -119,6 +119,10 @@ module Routes
           @actions = {
             "ips" => "file",
           }
+
+          @colsrt = 1
+          @colsrtdesc = "asc"
+
           haml :table
         end
 

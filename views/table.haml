@@ -8,6 +8,7 @@
         $('#datatable').DataTable({
           "pageLength": -1,
           "lengthMenu": [[25, 50, 100, 500, -1], [25, 50, 100, 500, "All"]],
+          "order": [[ #{@colsrt || '0'}, "#{@colsrtdesc || 'desc'}" ]],
         });
       })
 

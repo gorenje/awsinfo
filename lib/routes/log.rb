@@ -45,8 +45,12 @@ module Routes
           end
 
           @actions = {
-            "events" => "scroll"
+            "events" => "scroll",
+            "dump"   => "poop",
           }
+
+          @colsrt = 5
+          @colsrtdesc = "desc"
 
           haml :table
         end
@@ -57,6 +61,14 @@ module Routes
                           "--output text --log-stream-name #{params.c1} " +
                           "--log-group-name #{params.c0} --limit 1000 "   +
                           "| tac\\\"")
+          redirect back
+        end
+
+        app.get '/log/list/streams/dump' do
+          Awsctl.
+            open_terminal("aws logs get-log-events --output text "+
+                          "--log-stream-name #{params.c1} " +
+                          "--log-group-name #{params.c0} --limit 10000")
           redirect back
         end
       end
